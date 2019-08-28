@@ -12,6 +12,9 @@ int main()
 	test_simple_binary_search();
 	test_swap();
 	test_heap();
+	test_quick_sort();
+	test_merge();
+	test_merge_sort();
 	system("pause");
 }
 

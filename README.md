@@ -15,4 +15,7 @@
 | make_heap     | 建堆,参考c++11 algorithm库 |
 | push_down     | 对堆的调整                 |
 | pop_heap      | 弹出堆顶元素               |
+| push_heap     | 向堆中添加元素             |
+| quick_sort    | 随机化快速排序             |
+| merge_sort    | 归并排序                   |
 

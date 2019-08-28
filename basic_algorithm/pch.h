@@ -13,6 +13,9 @@
 #include <iostream>
 #include <vector>
 #include <stdint.h>
+#include <random>
+#include <functional>
+#include <iterator>
 using namespace std;
 
 #endif //PCH_H

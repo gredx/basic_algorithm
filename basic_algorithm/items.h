@@ -10,7 +10,7 @@ void swap(RandomIt left, RandomIt right)
 	*right = tmp;
 }
 
-// ¶ş·Ö²éÕÒ
+// binary_search
 template <class RandomIt, class T>
 bool binary_search(RandomIt start, RandomIt limit, T& key)
 {
@@ -53,7 +53,9 @@ bool simple_binary_search(RandomIt start, RandomIt limit, T& key)
 }
 
 
-// ¶Ñ
+// heap
+static inline int parent(int i) { return (i - 1) / 2; }
+
 template <class RandomIt>
 static void push_down(RandomIt start, RandomIt limit, size_t i)
 {
@@ -86,6 +88,82 @@ void pop_heap(RandomIt start, RandomIt limit)
 {
 	ly::swap(start, --limit);
 	push_down(start, limit, 0);
+}
+
+template <class RandomIt>
+void push_heap(RandomIt start, RandomIt limit)
+{
+	int len = limit - start;
+	RandomIt father = start + parent(len - 1);
+	RandomIt son = limit - 1;
+
+	while (father >= start && *father < *son) {
+		ly::swap(father, son);
+		son = father;
+		father = start + parent(son - start);
+	}
+}
+
+
+// quick_sort
+template <class RandomIt>
+void quick_sort(RandomIt start, RandomIt limit)
+{
+	if (limit - start <= 1)return;
+	int len = limit - start;
+	ly::swap(start, start + rand() % len);
+	auto key = *start;
+	RandomIt left = start, right = limit - 1; 
+	while (left < right){
+		while (left < right && key < *right) right--;
+		*left = *right;
+		while (left < right && *left <= key) left++;
+		*right = *left;
+	}
+	*left = key;
+	quick_sort(start, left);
+	quick_sort(left+1, limit);
+}
+
+// merge_sort
+template <class InputIt, class OutputIt>
+OutputIt copy(InputIt start, InputIt limit, OutputIt dest)
+{
+	while (start != limit) {
+		*dest++ = *start++;
+	}
+	return dest;
+}
+
+// merge two sorted list into dest, and return iterator after the last element
+template <class InputIt, class OutputIt>
+OutputIt merge(InputIt start1, InputIt limit1, InputIt start2, InputIt limit2, OutputIt dest)
+{
+	for (; start1 != limit1; dest++) {
+		if (start2 == limit2) 
+			return ly::copy(start1, limit1, dest);
+		if (*start1 < *start2) 
+			*dest = *start1++;
+		else 
+			*dest = *start2++;
+	}
+	return ly::copy(start2, limit2, dest);
+}
+
+template <class RandomIt>
+void merge_sort(RandomIt start, RandomIt limit)
+{
+	if (limit - start > 1) {
+		int len = limit - start;
+		auto ty = *start;
+		vector<decltype(ty)> v(len);	// decltype(*start) failed. *start return Type&
+		RandomIt mid = start + len / 2;
+
+		ly::merge_sort(start, mid);
+		ly::merge_sort(mid, limit);
+		auto last = ly::merge(start, mid, mid, limit, v.begin());
+		ly::copy(v.begin(), v.end(), start);
+	}
 }
 
 }
