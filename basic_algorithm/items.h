@@ -166,4 +166,71 @@ void merge_sort(RandomIt start, RandomIt limit)
 	}
 }
 
+class Permute {
+public:
+	vector<vector<int>> result;
+	void permutation(vector<int>& nums, int index) {
+		int len = nums.size();
+		if (index == len - 1) {
+			result.push_back(nums);
+			return;
+		}
+
+		for (int i = index; i < len; i++) {
+			std::swap(nums[i], nums[index]);
+			permutation(nums, index + 1);
+			std::swap(nums[i], nums[index]);
+		}
+	}
+	// has repeat elements
+	void permutation(vector<int>& nums, vector<int>& tmp, vector<int>& visit) {
+		if (tmp.size() == nums.size()) {
+			result.push_back(tmp);
+			return;
+		}
+		for (int i = 0; i < nums.size(); i++) {
+			if (visit[i]) continue;
+			if (i > 0 && nums[i] == nums[i - 1] && visit[i - 1] == 0) continue;
+			tmp.push_back(nums[i]);
+			visit[i] = 1;
+			permutation(nums, tmp, visit);
+			visit[i] = 0;
+			tmp.pop_back();
+		}
+	}
+
+	vector<vector<int>> permute(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+		int len = nums.size();
+		vector<int>visit(len,0);
+		vector<int>tmp;
+		permutation(nums, tmp, visit);
+		return result;
+	}
+
+	// C++ algorithm next_permutation implementation
+	void nextPermutation(vector<int>& nums) {
+		auto start = nums.begin();
+		auto limit = nums.end();
+		if (limit - start <= 1) return;
+		// find the first ascending pair
+		auto i = limit - 1;
+		while (true) {
+			auto i1 = i;
+			if (*--i < *i1) {
+				auto i2 = limit;
+				// find the first element >= *i
+				while (!(*i < *--i2));	
+				iter_swap(i, i2);
+				reverse(i1, limit);
+				return ;
+			}
+			if (i == start) {
+				reverse(start, limit);
+				return;
+			}
+		}
+	}
+};
+
 }

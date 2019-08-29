@@ -15,6 +15,7 @@ int main()
 	test_quick_sort();
 	test_merge();
 	test_merge_sort();
+	test_permutaion();
 	system("pause");
 }
 

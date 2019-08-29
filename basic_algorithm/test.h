@@ -14,3 +14,5 @@ void test_quick_sort();
 void test_merge();
 
 void test_merge_sort();
+
+void test_permutaion();

@@ -147,3 +147,13 @@ void test_merge_sort()
 	cout << '\n';
 	printLine();
 }
+
+void test_permutaion()
+{
+	vector<int> nums{ 3,3,0,3 };
+	ly::Permute p;
+	p.permute(nums);
+	for (auto x : p.result) {
+		print_container(x.begin(),x.end());
+	}
+}
